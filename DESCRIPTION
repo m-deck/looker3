@@ -2,7 +2,7 @@ Package: avant-looker3
 Type: Package
 Title: avant-looker3 (http://github.com/abelcastilloavant/avant-looker3)
 Description: Pull data from Looker using the fancy new 3.0 API.
-Version: 0.1.0
+Version: 0.0.1
 Author: Abel Castillo <abel.castillo@avant.com>
 Maintainer: Abel Castillo <abel.castillo@avant.com>
 Authors@R: c(person("Abel", "Castillo",
@@ -12,8 +12,10 @@ Depends:
 License: MIT
 LazyData: true
 Imports:
-    stringr
+    httr,
+    jsonlite,
+    recombinator,
+    checkr
 Suggests:
-    knitr,
     testthat
 Roxygen: list(wrap = FALSE)

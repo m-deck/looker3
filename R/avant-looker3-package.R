@@ -1,6 +1,6 @@
 #' Describe the package.
 #'
 #' @name avant-looker3
-#' @import stringr
+#' @import httr, jsonline, recombinator, checkr
 #' @docType package
 NULL
