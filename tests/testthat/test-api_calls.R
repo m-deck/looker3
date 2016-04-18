@@ -5,14 +5,14 @@ with_mock(
   `httr::DELETE` = function(...) NULL, {
 
     describe("login_api_call",
-      expect_true(TRUE)
+# TODO: write tests
     )
 
     describe("logout_api_call",
-      expect_true(TRUE)
+# TODO: write tests
     )
 
     describe("query_api_call",
-      expect_true(TRUE)
+# TODO: write tests
     )
 })
