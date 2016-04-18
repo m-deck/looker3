@@ -16,7 +16,6 @@ extract_login_token <- function(login_response) {
 
 handle_logout_response <- function(logout_response) { 
   validate_response(logout_response)
-  "logout successful"
 }
 
 
