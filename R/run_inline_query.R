@@ -22,12 +22,12 @@
 #' }
 #'
 #' @export 
-run_inline_query <- function(base_url, client_id, secret, model, view, fields, filters, limit = 10, streaming = TRUE) {
+run_inline_query <- function(base_url, client_id, client_secret, model, view, fields, filters, limit = 10, streaming = TRUE) {
 
   # TODO: validate inputs before proceeding, using checkr package
 
   # The API requires you to "log in" and obtain a session token
-  login_response <- login_api_call(base_url, client_id, secret) 
+  login_response <- login_api_call(base_url, client_id, client_secret) 
   session_token <- extract_login_token(login_response)
 
   # We need to log out of the session, regardless of its outcome.
@@ -36,8 +36,8 @@ run_inline_query <- function(base_url, client_id, secret, model, view, fields, f
     handle_logout_response(logout_response)
   )
   
-  inline_query_response <- query_api_call(base_url, session_token
+  inline_query_response <- query_api_call(base_url, session_token,
     model, view, fields, filters, limit, streaming) 
 
-  extract_data_from_inline_query(inline_query_response)  
+  extract_query_result(inline_query_response)  
 }
