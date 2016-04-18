@@ -6,8 +6,8 @@ args <- list(
   client_secret = "fake_secret",
   model = "fake_model",
   view = "fake_view",
-  filters = list(c("fake.name", "filtered")),
-  limit = 7
+  fields = c("fake", "field"),
+  filters = list(c("fake.name", "filtered"))
 )
 
 describe("run_inline_query helpers called with the corresponding inputs", {
@@ -30,7 +30,7 @@ describe("run_inline_query helpers called with the corresponding inputs", {
 
       test_that("extract_login_token receives the output of login_api_call", {
         with_mock(
-          `avant-looker3:::login_api_call` = function(...) "response received"
+          `avant-looker3:::login_api_call` = function(...) "response received",
           `avant-looker3:::extract_login_token` = function(login_response) {
             stop(paste0("extract_login_token called: ", login_response))  
           }, {
@@ -39,33 +39,40 @@ describe("run_inline_query helpers called with the corresponding inputs", {
         })  
       })
 
-      test_that("query_api_call receives its args, including streaming and token", {
+      test_that("query_api_call receives its args, including token", {
 
         with_mock(
           `avant-looker3:::extract_login_token` = function(...) "fake_token",
           `avant-looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit, streaming) {
-            inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
+            actual_inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
                            filters = filters, limit = limit, streaming = streaming)
-            if inputs == c(args, list(streaming = TRUE, token = "fake_token"))) { stop("query_api_called correctly") } 
-            stop("failure")
+            expected_inputs <- list(base_url = args$base_url, token = "fake_token", model = args$model, view = args$view,
+                            fields = args$fields, filters = args$filters, limit = 10, streaming = TRUE) 
+            if (identical(actual_inputs, expected_inputs)) {
+              stop("query_api_call called correctly") 
+            } 
+           stop("query_api_call with incorrect inputs") 
           }, {
-            expect_error(do.call(run_inline_query, args), "query_api_called correctly")
+            expect_error(do.call(run_inline_query, args), "query_api_call called correctly")
           })
-        })  
-
+          
         with_mock(
           `avant-looker3:::extract_login_token` = function(...) "fake_token",
           `avant-looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit, streaming) {
-            inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
+            actual_inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
                            filters = filters, limit = limit, streaming = streaming)
-            if inputs == c(args, list(streaming = TRUE, token = "fake_token"))) { stop("query_api_called correctly") } 
+            expected_inputs <- list(base_url = args$base_url, token = "fake_token", model = args$model, view = args$view,
+                            fields = args$fields, filters = args$filters, limit = 20, streaming = FALSE) 
+            if (identical(actual_inputs, expected_inputs)) {
+              stop("query_api_call called correctly") 
+            } 
             stop("failure")
           }, {
-            expect_error(do.call(run_inline_query, c(args, list(streaming = FALSE)), "query_api_called correctly")
-          })
-        })  
-  
-      })
+            expect_error(do.call(run_inline_query, c(args, list(limit = 20, streaming = FALSE)), "query_api_call called correctly"))
+        })
+      })  
+      
+
 
       test_that("extract_query_result receives the output of query_api_call", {
         with_mock(

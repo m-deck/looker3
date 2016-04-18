@@ -45,7 +45,7 @@ perform_looker3_query <- function(model = NULL, view = NULL, fields = NULL,
   
   # model, view, and fields are required to perform a query
   checkr::validate(model %is% simple_string, view %is% simple_string,
-                   is.character(fields))
+                   fields %is% character)
   
   run_inline_query(looker_setup$url, looker_setup$id, looker_setup$secret, 
     model, view, fields, filters, limit, streaming)

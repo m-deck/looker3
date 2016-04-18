@@ -31,10 +31,10 @@ run_inline_query <- function(base_url, client_id, client_secret,
   login_response <- login_api_call(base_url, client_id, client_secret) 
   session_token  <- extract_login_token(login_response)
 
-  on.exit(
+  on.exit({
     logout_response <- logout_api_call(base_url, session_token)
     handle_logout_response(logout_response)
-  )
+  })
   
   inline_query_response <- query_api_call(base_url, session_token,
     model, view, fields, filters, limit, streaming) 
