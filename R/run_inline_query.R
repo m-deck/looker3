@@ -31,7 +31,6 @@ run_inline_query <- function(base_url, client_id, client_secret,
   login_response <- login_api_call(base_url, client_id, client_secret) 
   session_token  <- extract_login_token(login_response)
 
-  # We need to log out of the session, regardless of its outcome.
   on.exit(
     logout_response <- logout_api_call(base_url, session_token)
     handle_logout_response(logout_response)
