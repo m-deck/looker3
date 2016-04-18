@@ -58,6 +58,58 @@ describe("handling missing env vars", {
 })
 
 
+describe("handling missing required variables", {
 
+  stub_env_vars()
+  on.exit(unstub_env_vars())
+
+  test_that("it stops if model is missing",
+    expect_error(perform_looker3_query(view = "inventory_items", 
+                   fields = c("category.name", "products.count"))
+      "Error on model %is% simple_string")
+  )  
+  
+  test_that("it stops if view is missing",
+    expect_error(perform_looker3_query(model = "thelook",
+                   fields = c("category.name", "products.count"))
+      "Error on view %is% simple_string")
+  )
+
+  test_that("it stops if fields is missing",
+  expect_error(perform_looker3_query(model = "thelook", view = "inventory_items"),
+    "Error on is.character(fields)")
+  )
+
+})
+
+
+test_that("it passes arguments to run_inline_query correctly", 
+  
+  stub_env_vars()
+  on.exit(unstub_env_vars())
+
+  with_mock(
+    `avant-looker3:::run_inline_query` = function(url, id, secret,
+                                           model, view, fields, filters, 
+                                           limit, streaming) {
+      list(url = url, id = id, secret = secret, model = model,
+           view = view, fields = fields, filters = filters, 
+           limit = limit, streaming = streaming)  
+    }, {
+    
+    args <- list(model = "thelook", view = "inventory_items", 
+      fields = c("category.name", "products.count"),
+      filters = filters = list(c("category.name", "socks")))
+      
+    expect_equal(do.call(perform_looker3_query, args),
+     c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
+       args,
+       list(limit = 10, streaming = TRUE)))
+    expect_equal(do.call(perform_looker3_query, c(args, list(limit = 20, streaming = FALSE))),
+     c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
+       args,
+       list(limit = 20, streaming = FALSE)))
+    })
+)
 
 
