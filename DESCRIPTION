@@ -17,5 +17,6 @@ Imports:
     recombinator,
     checkr
 Suggests:
-    testthat
+    testthat,
+    withr
 Roxygen: list(wrap = FALSE)
