@@ -25,28 +25,32 @@
 #' }
 #' 
 #' @export
-looker3 <- function(model = NULL, view = NULL, fields = NULL, 
-                           filters = list(), limit = 10, streaming = TRUE) {
+looker3 <- function(model, view, fields,
+             filters = list(), limit = 10, streaming = TRUE) {
 
-  env_var_names <- c("LOOKER_URL", "LOOKER_ID", "LOOKER_SECRET") 
-  env_var_descriptions <- c("API url", "client id", "client secret")
+  env_var_descriptions <- list(
+    LOOKER_URL    = "API url",
+    LOOKER_ID     = "client id",
+    LOOKER_SECRET = "client secret"
+  )
 
-  looker_setup <- Map(function(name, description) {
+  looker_setup <- lapply(names(env_var_descriptions), function(name) {
     env_var <- Sys.getenv(name)
     if (env_var == "") {
       stop(paste0("Your environment variables are not set correctly. ",
-      "please place your Looker 3.0 ", description, " in the environment ",
-      "varialbe ", name))  
-    }  
+        "please place your Looker 3.0 ", env_var_descriptions[[name]],
+        " in the environment variable ", name, "."
+      ))
+    }
     env_var
-  }, env_var_names, env_var_descriptions)
+  })
 
-  names(looker_setup) <- c("url", "id", "secret")
-  
+  names(looker_setup) <- names(env_var_descriptions)
+
   # model, view, and fields are required to perform a query
   checkr::validate(model %is% simple_string, view %is% simple_string,
                    fields %is% character)
-  
-  run_inline_query(looker_setup$url, looker_setup$id, looker_setup$secret, 
+
+  run_inline_query(looker_setup$LOOKER_URL, looker_setup$LOOKER_ID, looker_setup$LOOKER_SECRET,
     model, view, fields, filters, limit, streaming)
 }

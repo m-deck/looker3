@@ -1,4 +1,4 @@
-Package: avantlooker3
+Package: looker3
 Type: Package
 Title: looker3 (http://github.com/abelcastilloavant/avant-looker3)
 Description: Pull data from Looker using the fancy new 3.0 API.
