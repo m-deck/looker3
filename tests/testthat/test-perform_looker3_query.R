@@ -89,7 +89,7 @@ test_that("it passes arguments to run_inline_query correctly", {
   on.exit(unstub_env_vars())
 
   with_mock(
-    `avant-looker3:::run_inline_query` = function(url, id, secret,
+    `looker3:::run_inline_query` = function(url, id, secret,
                                            model, view, fields, filters, 
                                            limit, streaming) {
       list(url = url, id = id, secret = secret, model = model,

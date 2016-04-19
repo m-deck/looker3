@@ -18,7 +18,7 @@ describe("validate_response", {
 
 describe("extract_login_token", {
   test_that("it calls validate_response", {
-    with_mock(`avant-looker3:::validate_response` = function(...) stop("valiate_response called"), {
+    with_mock(`looker3:::validate_response` = function(...) stop("valiate_response called"), {
       expect_error(extract_login_token(fake_login_response))  
     })
   })
@@ -29,7 +29,7 @@ describe("extract_login_token", {
 
 describe("handle_logout_response", {
   test_that("it calls validate_response", {
-    with_mock(`avant-looker3:::validate_response` = function(...) stop("valiate_response called"), {
+    with_mock(`looker3:::validate_response` = function(...) stop("valiate_response called"), {
       expect_error(handle_logout_response(fake_logout_response))  
     })
   })
@@ -40,7 +40,7 @@ describe("handle_logout_response", {
 
 describe("extract_query_results", {
   test_that("it calls validate_response", {
-    with_mock(`avant-looker3:::validate_response` = function(...) stop("valiate_response called"), {
+    with_mock(`looker3:::validate_response` = function(...) stop("valiate_response called"), {
       expect_error(extract_query_results(fake_query_response))  
     })
   })

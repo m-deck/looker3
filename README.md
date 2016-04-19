@@ -1,4 +1,4 @@
-avant-looker3: interface with the Looker 3.0 API
+looker3: interface with the Looker 3.0 API
 ===========
 
 Pull data from Looker with the fancy new 3.0 API
