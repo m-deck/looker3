@@ -1,4 +1,4 @@
-context("perform_looker3_query")
+context("looker3")
 
 # Temporarily store the testing environment's env vars in R, 
 # to restore them when exiting tests
@@ -37,21 +37,21 @@ describe("handling missing env vars", {
 
   test_that("it stops if LOOKER_URL is missing", {
     Sys.setenv(LOOKER_URL = "") # mocking an env var that has not been set
-    expect_error(perform_looker3_query(),
+    expect_error(looker3(),
       "place your Looker 3.0 API url in the environment")  
     Sys.setenv(LOOKER_URL = "fake.looker.com:111/")
   })
   
   test_that("it stops if LOOKER_ID is missing", {
     Sys.setenv(LOOKER_ID = "")  
-    expect_error(perform_looker3_query(),
+    expect_error(looker3(),
       "place your Looker 3.0 client id in the environment")
     Sys.setenv(LOOKER_ID = "fake_client")
   })
   
   test_that("it stops if LOOKER_SECRET is missing", {
     Sys.setenv(LOOKER_SECRET = "")
-    expect_error(perform_looker3_query(),
+    expect_error(looker3(),
       "place your Looker 3.0 client secret in the environment")
   })
   
@@ -76,11 +76,11 @@ test_that("it passes arguments to run_inline_query correctly", {
       fields = c("category.name", "products.count"),
       filters = list(c("category.name", "socks")))
       
-    expect_equal(do.call(perform_looker3_query, args),
+    expect_equal(do.call(looker3, args),
      c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
        args,
        list(limit = 10, streaming = TRUE)))
-    expect_equal(do.call(perform_looker3_query, c(args, list(limit = 20, streaming = FALSE))),
+    expect_equal(do.call(looker3, c(args, list(limit = 20, streaming = FALSE))),
      c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
        args,
        list(limit = 20, streaming = FALSE)))

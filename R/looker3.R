@@ -18,14 +18,14 @@
 #' @return a data.frame containing the data returned by the query
 #'
 #' @example /dontrun{
-#'   perform_looker3_query(model = "thelook", view = "inventory_items",
+#'   looker3(model = "thelook", view = "inventory_items",
 #'     fields = c("category.name", "products.count"),
 #'     filters = list(c("category.name", "socks"))
 #'   )
 #' }
 #' 
 #' @export
-perform_looker3_query <- function(model = NULL, view = NULL, fields = NULL, 
+looker3 <- function(model = NULL, view = NULL, fields = NULL, 
                            filters = list(), limit = 10, streaming = TRUE) {
 
   env_var_names <- c("LOOKER_URL", "LOOKER_ID", "LOOKER_SECRET") 
