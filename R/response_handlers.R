@@ -1,4 +1,5 @@
 validate_response <- function(http_response) {
+  #TODO: create package-specific error messaging
   checkr::validate(httr:::status_code(http_response) %in% c("200", "202", "204")) 
   TRUE
 }
