@@ -13,7 +13,7 @@ logout_api_call <- function(base_url, token) {
 
 query_api_call <- function(base_url, token, model, view, fields, filters, 
                     limit = 10, streaming = TRUE){
-  query_url <- paste0(base_url, "api/3.0/queries/run/json")
+  query_url <- paste0(base_url, "api/3.0/queries/run/csv")
   query_body <- list(model = model, view = view, fields = I(fields), 
                   filters = filters, limit = limit)
   httr::POST(url = query_url, 

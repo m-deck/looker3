@@ -42,7 +42,7 @@ with_mock(
       test_that("query_api_call passes url to httr::POST", {
       expect_identical(
         do.call(query_api_call, args)$url,
-        "https://fake.looker.com:111/api/3.0/queries/run/json")
+        "https://fake.looker.com:111/api/3.0/queries/run/csv")
       })
 
       test_that("query_api_call passes token to httr::POST", {
