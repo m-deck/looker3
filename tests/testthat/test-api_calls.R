@@ -9,7 +9,8 @@ with_mock(
       with_mock(`httr::POST` = function(url) {
           identical(url,"https://fake.looker.com:111/api/3.0/login?client_id=FAKE_ID&client_secret=FAKE_SECRET")
         }, {
-          expect_true(login_api_call("https://fake.looker.com:111/", "FAKE_ID", "FAKE_SECRET"))
+          expect_true(login_api_call("https://fake.looker.com:111/", 
+                        "FAKE_ID", "FAKE_SECRET"))
       })
     })
 
@@ -34,7 +35,8 @@ with_mock(
       list(url = url, header = header, body = body)  
     }, {
       args <- list(base_url = "https://fake.looker.com:111/", token = "FAKE_TOKEN",
-        model = "look", view = "items", fields = c("category.name", "products.count"), 
+        model = "look", view = "items", 
+        fields = c("category.name", "products.count"), 
         filters = list(c("category.name", "socks")))
 
       test_that("query_api_call passes url to httr::POST", {
