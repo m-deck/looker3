@@ -13,7 +13,6 @@
 #' @param filters list. Each element of the list is a length 2 character vector,
 #' each vector describing one of the \code{filters} of the query.
 #' @param limit numeric. The \code{limit} parameter of the query.
-#' @param streaming logical. Whether or not to use the \code{streaming} feature.
 #'
 #' @return a data.frame containing the data returned by the query
 #'
@@ -26,7 +25,7 @@
 #' 
 #' @export
 looker3 <- function(model, view, fields,
-             filters = list(), limit = 10, streaming = TRUE) {
+             filters = list(), limit = 10) {
 
   env_var_descriptions <- list(
     LOOKER_URL    = "API url",
@@ -52,5 +51,5 @@ looker3 <- function(model, view, fields,
                    fields %is% character)
 
   run_inline_query(looker_setup$LOOKER_URL, looker_setup$LOOKER_ID, looker_setup$LOOKER_SECRET,
-    model, view, fields, filters, limit, streaming)
+    model, view, fields, filters, limit)
 }

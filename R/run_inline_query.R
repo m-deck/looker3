@@ -10,7 +10,6 @@
 #' be converted into a hash table and passed as the \code{filters}
 #' of the query.
 #' @param limit numeric. The \code{limit} parameter of the query.
-#' @param streaming logical. Whether or not to use the \code{streaming} feature.
 #'
 #' @return a data.frame containing the data returned by the query.
 #'
@@ -24,7 +23,7 @@
 #'
 run_inline_query <- function(base_url, client_id, client_secret, 
                       model, view, fields, filters, 
-                      limit = 10, streaming = TRUE) {
+                      limit = 10) {
 
 
   # The API requires you to "log in" and obtain a session token
@@ -38,7 +37,7 @@ run_inline_query <- function(base_url, client_id, client_secret,
   })
   
   inline_query_response <- query_api_call(base_url, session_token,
-    model, view, fields, filters, limit, streaming) 
+    model, view, fields, filters, limit) 
 
   extract_query_result(inline_query_response)  
 }
