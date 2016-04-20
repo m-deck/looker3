@@ -35,10 +35,9 @@ describe("processing successful responses", {
   
     test_that("extract_query_result returns a data frame", {
       fake_query_response <- list(status = "200", 
-        body = list(list("id", "first", "second"), list("a", "1", "2")))  
+        body = "ID, VALUE \n 1, 2")
       expect_equal(extract_query_result(fake_query_response),
-        recombinator::recombinator(list(list("id", "first", "second"), 
-                                     list("a", "1", "2"))))
+        data.frame(ID = 1, VALUE = 2))
     })
    
   })  

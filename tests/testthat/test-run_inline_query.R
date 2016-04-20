@@ -43,11 +43,11 @@ describe("run_inline_query helpers called with the corresponding inputs", {
 
         with_mock(
           `looker3:::extract_login_token` = function(...) "fake_token",
-          `looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit, streaming) {
+          `looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit) {
             actual_inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
-                           filters = filters, limit = limit, streaming = streaming)
+                           filters = filters, limit = limit)
             expected_inputs <- list(base_url = args$base_url, token = "fake_token", model = args$model, view = args$view,
-                            fields = args$fields, filters = args$filters, limit = 10, streaming = TRUE) 
+                            fields = args$fields, filters = args$filters, limit = 10) 
             if (identical(actual_inputs, expected_inputs)) {
               stop("query_api_call called correctly") 
             } 
@@ -58,17 +58,17 @@ describe("run_inline_query helpers called with the corresponding inputs", {
           
         with_mock(
           `looker3:::extract_login_token` = function(...) "fake_token",
-          `looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit, streaming) {
+          `looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit) {
             actual_inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
-                           filters = filters, limit = limit, streaming = streaming)
+                           filters = filters, limit = limit)
             expected_inputs <- list(base_url = args$base_url, token = "fake_token", model = args$model, view = args$view,
-                            fields = args$fields, filters = args$filters, limit = 20, streaming = FALSE) 
+                            fields = args$fields, filters = args$filters, limit = 20) 
             if (identical(actual_inputs, expected_inputs)) {
               stop("query_api_call called correctly") 
             } 
             stop("failure")
           }, {
-            expect_error(do.call(run_inline_query, c(args, list(limit = 20, streaming = FALSE)), "query_api_call called correctly"))
+            expect_error(do.call(run_inline_query, c(args, list(limit = 20)), "query_api_call called correctly"))
         })
       })  
       
