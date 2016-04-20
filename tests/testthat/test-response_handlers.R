@@ -37,7 +37,7 @@ describe("processing successful responses", {
       fake_query_response <- list(status = "200", 
         body = "ID, VALUE \n 1, 2")
       expect_equal(extract_query_result(fake_query_response),
-        utils::read.csv(text = "ID, VALUE \n 1, 2"))
+        data.frame(ID = 1, VALUE = 2))
     })
    
   })  
