@@ -15,8 +15,8 @@ test_that("helpers validate before processing responses", {
 
 describe("processing successful responses", {
   with_mock(
-  `httr:::status_code` = function(response) { response$status }, 
-  `httr:::content` = function(response) { response$body }, {
+  `httr::status_code` = function(response) { response$status }, 
+  `httr::content` = function(response) { response$body }, {
 
     test_that("extract_login_token returns the access token", { 
       fake_login_response <- list(status = "200", body = list(access_token = "FAKE_TOKEN"))

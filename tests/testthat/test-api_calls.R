@@ -3,7 +3,7 @@ context("api calling helper functions")
 with_mock(
   `httr::POST` = function(...) NULL,
   `httr::DELETE` = function(...) NULL, 
-  `httr:::add_headers` = function(Authorization) paste0("Authorization is ", Authorization), {
+  `httr::add_headers` = function(Authorization) paste0("Authorization is ", Authorization), {
 
     test_that("login_api_call passes url to httr::POST", {
       with_mock(`httr::POST` = function(url) {
@@ -50,17 +50,17 @@ with_mock(
       })
     
       test_that("query_api_call passes body to httr::POST", {
-      expect_identical(
+      expect_equal(
         do.call(query_api_call, args)$body,
         list(model = args$model, view = args$view, fields = I(args$fields),
-             filters = args$filters, limit = "10"))
+             filters = args$filters, limit = 10))
       })
 
       test_that("query_api_call passes user-specified limit to httr::POST", {
-      expect_identical(
-        do.call(query_api_call, c(args, list(limit = "20")))$body,
+      expect_equal(
+        do.call(query_api_call, c(args, list(limit = 20)))$body,
         list(model = args$model, view = args$view, fields = I(args$fields),
-             filters = args$filters, limit = "20"))
+             filters = args$filters, limit = 20))
       })
 
     })
