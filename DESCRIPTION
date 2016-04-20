@@ -14,12 +14,10 @@ LazyData: true
 Imports:
     httr,
     jsonlite,
-    recombinator,
     checkr
 Suggests:
     testthat,
     withr
 Remotes:
-    peterhurford/checkr@0.0.4.9005,
-    robertzk/recombinator@0.1.3
+    peterhurford/checkr@0.0.4.9005
 Roxygen: list(wrap = FALSE)
