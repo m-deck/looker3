@@ -1,52 +1,49 @@
 context("response handling helper functions")
 
 # TODO: create mock response objects.
-fake_successful_response <- NULL
-fake_failed_response <- NULL
-fake_login_response <- NULL
+fake_login_response <- list(status = "200", access_token = "FAKE_TOKEN") 
 fake_logout_response <- NULL
 fake_query_response <- NULL
 
-describe("validate_response", {
-  test_that("it errors on a failed response", {
-  # TODO: write test
-  })
-  test_that("it returns TRUE on a successful response", {
- # TODO: write test 
-  })
-})
-
-describe("extract_login_token", {
-  test_that("it calls validate_response", {
-    with_mock(`looker3:::validate_response` = function(...) stop("valiate_response called"), {
+test_that("helpers validate before processing responses", {
+  with_mock(
+    `looker3:::validate_response` = function(...) {
+      stop("valiate_response called")
+    }, {
       expect_error(extract_login_token(fake_login_response))  
-    })
-  })
-  test_that("it extracts the login token from the response", {
-#   expect_equal(extract_login_token(fake_login_response), "fake_token")  
-  })
-})
-
-describe("handle_logout_response", {
-  test_that("it calls validate_response", {
-    with_mock(`looker3:::validate_response` = function(...) stop("valiate_response called"), {
       expect_error(handle_logout_response(fake_logout_response))  
-    })
-  })
-  test_that("it returns TRUE on a successful logout attempt", {
-#   expect_identical(handle_logout_response(fake_logout_response), "logout successful")  
-  })
-})
-
-describe("extract_query_results", {
-  test_that("it calls validate_response", {
-    with_mock(`looker3:::validate_response` = function(...) stop("valiate_response called"), {
       expect_error(extract_query_results(fake_query_response))  
-    })
-  })
-  test_that("it returns the data as a data frame on a successful query response", {
-#      expect_equal(extract_query_results(fake_query_response),
-#                   data.frame(a = c(1,2), b = c(10,20)))  
   })
 })
 
+describe("processing successful responses", {
+  with_mock(
+  `httr::status_code` = function(response) { response$status }, 
+  `httr::content` = function(response) { response$body }, {
+
+    test_that("extract_login_token returns the access token", { 
+      fake_login_response <- list(status = "200", 
+                               body = list(access_token = "FAKE_TOKEN"))
+      expect_equal(extract_login_token(fake_login_response),
+                   "FAKE_TOKEN")
+    })   
+   
+    test_that("handle_logout_response returns TRUE", {
+      fake_logout_response <- list(status = "204")  
+      expect_true(handle_logout_response(fake_logout_response))
+    })
+  
+    test_that("extract_query_result returns a data frame", {
+      fake_query_response <- list(status = "200", 
+        body = list(list("id", "first", "second"), list("a", "1", "2")))  
+      expect_equal(extract_query_result(fake_query_response),
+        recombinator::recombinator(list(list("id", "first", "second"), 
+                                     list("a", "1", "2"))))
+    })
+   
+  })  
+  
+  
+  
+})
+  
