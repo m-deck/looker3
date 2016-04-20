@@ -10,6 +10,8 @@ logout_api_call <- function(base_url, token) {
 }
 
 query_api_call <- function(base_url, token, model, view, fields, filters, limit = 10, streaming = TRUE){
+  limit <- as.character(limit)
+  
   query_url <- paste0(base_url, "api/3.0/queries/run/json")
   query_body <- list(model = model, view = view, fields = I(fields), filters = filters, limit = limit)
   httr::POST(url = query_url, httr:::add_headers(Authorization = paste0("token ", token)),  body = query_body, encode = "json")
