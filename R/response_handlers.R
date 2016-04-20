@@ -2,15 +2,14 @@ validate_response <- function(http_response) {
 
   # TODO: validate that the response is a request 
   # object with success status code.
-  
+  httr:::content(http_response) %in% c("200", "202", "204")  
   TRUE
 }
 
 extract_login_token <- function(login_response) {
   validate_response(login_response)
 
-  # TODO: figure out how to extract the login token from this
-  # httr:::content(login_response) 
+  httr:::content(login_response)$access_token
 }
 
 
