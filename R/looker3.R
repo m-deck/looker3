@@ -16,13 +16,6 @@
 #'
 #' @return a data.frame containing the data returned by the query
 #'
-#' @example /dontrun{
-#'   looker3(model = "thelook", view = "inventory_items",
-#'     fields = c("category.name", "products.count"),
-#'     filters = list(c("category.name", "socks"))
-#'   )
-#' }
-#' 
 #' @export
 looker3 <- function(model, view, fields,
              filters = list(), limit = 10) {

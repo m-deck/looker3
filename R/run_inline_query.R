@@ -13,14 +13,6 @@
 #'
 #' @return a data.frame containing the data returned by the query.
 #'
-#' @example /dontrun{
-#'   run_inline_query("http://abelrocks.looker.com:111/", "my_id", "my_secret", 
-#'     model = "thelook", view = "inventory_items",
-#'     fields = c("category.name", "products.count"),
-#'     filters = list("category.name" = "socks", "products.count" = "<=100"))
-#'   ) 
-#' }
-#'
 run_inline_query <- function(base_url, client_id, client_secret, 
                       model, view, fields, filters, 
                       limit = 10) {
