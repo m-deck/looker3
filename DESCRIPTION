@@ -18,6 +18,6 @@ Imports:
 Suggests:
     testthat,
     withr
-Remotes:
-    peterhurford/checkr@0.0.4.9005
+Remotes: peterhurford/checkr@0.0.4.9005
 Roxygen: list(wrap = FALSE)
+RoxygenNote: 5.0.0
