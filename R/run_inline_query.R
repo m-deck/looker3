@@ -26,6 +26,7 @@ run_inline_query <- function(base_url, client_id, client_secret,
 
   on.exit({
     logout_response <- logout_api_call(base_url, session_token)
+    message(paste0("logout api call went through with status code ", httr::status_code(logout_response)))
     handle_logout_response(logout_response)
   })
   
