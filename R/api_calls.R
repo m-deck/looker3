@@ -18,6 +18,7 @@ query_api_call <- function(base_url, token, model, view, fields, filters,
                   filters = filters, limit = limit)
   if (length(filters) == 0) { query_body$filters <- NULL }
   httr::POST(url = query_url, 
+    httr::timeout(7200), # let's specify the timeout length
     httr::add_headers(Authorization = paste0("token ", token)),  
     body = query_body, encode = "json")
 }
