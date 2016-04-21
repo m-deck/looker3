@@ -16,6 +16,7 @@ query_api_call <- function(base_url, token, model, view, fields, filters,
   query_url <- paste0(base_url, "api/3.0/queries/run/csv")
   query_body <- list(model = model, view = view, fields = I(fields), 
                   filters = filters, limit = limit)
+  if (length(filters) == 0) { query_body$filters <- NULL }
   httr::POST(url = query_url, 
     httr::add_headers(Authorization = paste0("token ", token)),  
     body = query_body, encode = "json")
