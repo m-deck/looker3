@@ -19,7 +19,7 @@ library("looker3")
 df <- looker3(model = "thelook",
               view = "orders",
               fields = c("orders.count", "orders.created_month")
-              filters = list(c("orders.created_month", "90 days"), c("orders.status", "complete"))
+              filters = list("orders.created_month" = "90 days", "orders.status" = "complete")
 )
 ```
 
