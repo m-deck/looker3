@@ -21,6 +21,7 @@ run_inline_query <- function(base_url, client_id, client_secret,
   # The API requires you to "log in" and obtain a session token
   # TODO: find a way to cache the session token, perhaps using memoise package?
   login_response <- login_api_call(base_url, client_id, client_secret) 
+  message(paste0("login api call went through with status code ", httr::status_code(login_response)))
   session_token  <- extract_login_token(login_response)
 
   on.exit({
@@ -30,6 +31,9 @@ run_inline_query <- function(base_url, client_id, client_secret,
   
   inline_query_response <- query_api_call(base_url, session_token,
     model, view, fields, filters, limit) 
+
+  message("query api call went through with status code ", httr::status_code(inline_query_response))
+  message("response body has size ", object.size(httr::body(inline_query_response)), "bytes")
 
   extract_query_result(inline_query_response)  
 }
