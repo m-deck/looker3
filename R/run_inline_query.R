@@ -34,7 +34,7 @@ run_inline_query <- function(base_url, client_id, client_secret,
     model, view, fields, filters, limit) 
 
   message("query api call went through with status code ", httr::status_code(inline_query_response))
-  message("response body has size ", object.size(httr::body(inline_query_response)), "bytes")
+  message("response body has size ", object.size(httr::content(inline_query_response)), "bytes")
 
   output <- extract_query_result(inline_query_response)  
   message(paste0("successfully extracted data frame with ", nrow(output), " rows and ", ncol(output), " columns."))
