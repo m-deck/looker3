@@ -18,7 +18,7 @@
 #'
 #' @export
 looker3 <- function(model, view, fields,
-             filters = list(), limit = 10) {
+             filters = list(), limit = 1000) {
 
   env_var_descriptions <- list(
     LOOKER_URL    = "API url",

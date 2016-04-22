@@ -15,7 +15,7 @@
 #'
 run_inline_query <- function(base_url, client_id, client_secret, 
                       model, view, fields, filters, 
-                      limit = 10) {
+                      limit = 1000) {
 
 
   # The API requires you to "log in" and obtain a session token

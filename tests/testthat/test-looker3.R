@@ -59,11 +59,11 @@ withr::with_envvar(c(
         fields = c("category.name", "products.count"),
         filters = "category.name: socks")
   
-      test_that("it passes args correctly, with default limit 10", 
+      test_that("it passes args correctly, with default limit 1000", 
         expect_equal(do.call(looker3, args),
          c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
            args,
-           list(limit = 10)))
+           list(limit = 1000)))
       )
       test_that("it passes args correctly, with limit passed as an argument", 
         expect_equal(do.call(looker3, c(args, list(limit = 20))),
@@ -75,7 +75,7 @@ withr::with_envvar(c(
         expect_equal(do.call(looker3, bw_compatible_args),
          c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
            args,
-           list(limit = 10)))
+           list(limit = 1000)))
       )
       })
   })
