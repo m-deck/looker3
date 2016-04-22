@@ -23,3 +23,8 @@ df <- looker3(model = "thelook",
 )
 ```
 
+Filters can be specified as above, or as a character string with colon separations, e.g. 
+
+```
+filters = c("orders.created_month: 90 days", "orders.status: complete")
+```

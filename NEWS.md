@@ -1,3 +1,6 @@
+# Version 0.1.3
+- Added compatibility for inputs in the format of Looker API 2.0.
+
 # Version 0.1.0
 - Added support for `run_inline_query` using the `csv` API endpoint(which supports streaming).
 

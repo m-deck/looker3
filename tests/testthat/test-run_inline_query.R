@@ -47,7 +47,7 @@ describe("run_inline_query helpers called with the corresponding inputs", {
             actual_inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
                            filters = filters, limit = limit)
             expected_inputs <- list(base_url = args$base_url, token = "fake_token", model = args$model, view = args$view,
-                            fields = args$fields, filters = args$filters, limit = 10) 
+                            fields = args$fields, filters = args$filters, limit = 1000) 
             if (identical(actual_inputs, expected_inputs)) {
               stop("query_api_call called correctly") 
             } 

@@ -55,7 +55,7 @@ with_mock(
       expect_equal(
         do.call(query_api_call, args)$body,
         list(model = args$model, view = args$view, fields = I(args$fields),
-             filters = args$filters, limit = 10))
+             filters = args$filters, limit = 1000))
       })
 
       test_that("query_api_call passes user-specified limit to httr::POST", {

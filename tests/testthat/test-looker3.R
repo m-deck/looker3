@@ -40,7 +40,7 @@ withr::with_envvar(c(
   })
 
 
-  test_that("it passes arguments to run_inline_query correctly", {
+  describe("looker3 passes arguments to run_inline_query correctly", {
 
     with_mock(
       `looker3:::run_inline_query` = function(url, id, secret,
@@ -53,16 +53,30 @@ withr::with_envvar(c(
   
       args <- list(model = "look", view = "items",
         fields = c("category.name", "products.count"),
-        filters = list(c("category.name", "socks")))
+        filters = list("category.name" = "socks"))
+
+      bw_compatible_args <- list(model = "look", view = "items",
+        fields = c("category.name", "products.count"),
+        filters = "category.name: socks")
   
-      expect_equal(do.call(looker3, args),
-       c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
-         args,
-         list(limit = 10)))
-      expect_equal(do.call(looker3, c(args, list(limit = 20))),
-       c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
-         args,
-         list(limit = 20)))
+      test_that("it passes args correctly, with default limit 1000", 
+        expect_equal(do.call(looker3, args),
+         c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
+           args,
+           list(limit = 1000)))
+      )
+      test_that("it passes args correctly, with limit passed as an argument", 
+        expect_equal(do.call(looker3, c(args, list(limit = 20))),
+         c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
+           args,
+           list(limit = 20)))
+      ) 
+      test_that("it parses lookR-formatted filters correctly", 
+        expect_equal(do.call(looker3, bw_compatible_args),
+         c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
+           args,
+           list(limit = 1000)))
+      )
       })
   })
 
