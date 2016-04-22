@@ -44,7 +44,8 @@ looker3 <- function(model, view, fields,
                    fields %is% character)
 
 
-  if (is.character(filters)) {
+  # if user-specified filters as a character vector, reformat to a list
+  if (!missing(filters) && is.character(filters)) {
     filters <- colon_split_to_list(filters) 
   }
 
