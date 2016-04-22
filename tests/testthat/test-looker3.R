@@ -53,7 +53,11 @@ withr::with_envvar(c(
   
       args <- list(model = "look", view = "items",
         fields = c("category.name", "products.count"),
-        filters = list(c("category.name", "socks")))
+        filters = list("category.name" = "socks"))
+
+      bw_compatible_args <- list(model = "look", view = "items",
+        fields = c("category.name", "products.count"),
+        filters = "category.name: socks")
   
       expect_equal(do.call(looker3, args),
        c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
@@ -63,6 +67,11 @@ withr::with_envvar(c(
        c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
          args,
          list(limit = 20)))
+
+      expect_equal(do.call(looker3, bw_compatible_args),
+       c(list(url = fake_env_vars$url, id = fake_env_vars$id, secret = fake_env_vars$secret), 
+         args,
+         list(limit = 10)))
       })
   })
 

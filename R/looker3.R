@@ -43,6 +43,20 @@ looker3 <- function(model, view, fields,
   checkr::validate(model %is% simple_string, view %is% simple_string,
                    fields %is% character)
 
+
+  if (is.character(filters)) {
+    filters <- colon_split_to_list(filters) 
+  }
+
   run_inline_query(looker_setup$LOOKER_URL, looker_setup$LOOKER_ID, looker_setup$LOOKER_SECRET,
     model, view, fields, filters, limit)
+}
+
+
+colon_split_to_list <- function(string) {
+  colon_split <- strsplit(string, ": ")
+  field_names <- lapply(colon_split, `[[`, 1)
+  values <- lapply(colon_split, `[[`, 2)
+  names(values) <- field_names
+  values
 }
