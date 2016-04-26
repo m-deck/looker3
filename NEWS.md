@@ -1,3 +1,6 @@
+# Version 0.1.4
+- Error messages on `validate_response` now include step name and status code.
+
 # Version 0.1.3
 - Added compatibility for inputs in the format of Looker API 2.0.
 

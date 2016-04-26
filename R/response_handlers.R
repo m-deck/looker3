@@ -1,9 +1,18 @@
-validate_response <- function(http_response) {
-  #TODO: create package-specific error messaging
-  checkr::validate(
-    httr::status_code(http_response) %in% c("200", "201", "202", "204")
-  ) 
-  TRUE
+is.successful_response <- function(response) {
+  httr::status_code(response) %in% c("200", "201", "202", "204")
+}
+
+
+validate_response <- function(response) {
+  if (is.successful_response(response)) { return(TRUE) }
+
+  stop(paste("The",
+    gsub("_", " ", deparse(substitute(response))), 
+    "of your Looker query was not a successful response.",
+    "it returned a status code of",
+    httr::status_code(response)
+    )
+  )
 }
 
 extract_login_token <- function(login_response) {

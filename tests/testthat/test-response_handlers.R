@@ -4,15 +4,27 @@ context("response handling helper functions")
 fake_login_response <- list(status = "200", access_token = "FAKE_TOKEN") 
 fake_logout_response <- NULL
 fake_query_response <- NULL
+fake_fail_response <- list(status = "500")
+
+
+test_that("validate_response errors with step name and status code", {
+  with_mock(`httr::status_code` = function(x) x$status, {
+     expect_error(validate_response(fake_fail_response),
+       "The fake fail response of your Looker query")
+     expect_error(validate_response(fake_fail_response),
+       "returned a status code of 500")
+   })
+})
+
 
 test_that("helpers validate before processing responses", {
   with_mock(
-    `looker3:::validate_response` = function(...) {
+    `looker3:::validate_response` = function(http_object) {
       stop("valiate_response called")
     }, {
-      expect_error(extract_login_token(fake_login_response))  
-      expect_error(handle_logout_response(fake_logout_response))  
-      expect_error(extract_query_results(fake_query_response))  
+      expect_error(extract_login_token(fake_login_response))
+      expect_error(handle_logout_response(fake_logout_response))
+      expect_error(extract_query_result(fake_query_response))
   })
 })
 
@@ -41,8 +53,6 @@ describe("processing successful responses", {
     })
    
   })  
-  
-  
   
 })
   
