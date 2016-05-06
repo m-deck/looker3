@@ -1,0 +1,18 @@
+packages:
+  -
+    name: covr
+    version: 0.1
+  -
+    name: devtools
+    repo: hadley/devtools
+    version: 1.10.0.9000
+    ref: 2b42b846534ceec47a867ad0376a7024ff80eb01
+  -
+    name: roxygen2
+    repo: klutometis/roxygen
+    version: 5.0.1
+    ref: v5.0.1
+  -
+    name: checkr
+    repo: peterhurford/checkr
+    version: 0.0.4.9007
