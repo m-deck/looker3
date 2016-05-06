@@ -1,7 +1,7 @@
 packages:
   -
     name: covr
-    version: 0.1
+    version: 2.0.1
   -
     name: devtools
     repo: hadley/devtools
