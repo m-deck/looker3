@@ -16,8 +16,23 @@ class JenkinsCi {
 CONTAINER_NAME=$BUILD_TAG
 DOCKER_IMAGE="de-docker.art.local/aa-r-avantformula:latest"
 
+R_COMMAND="download <- function(path, url, ...) { \
+request <- httr::GET(url, ...); \
+httr::stop_for_status(request); \
+writeBin(httr::content(request, 'raw'), path); \
+path}; \
+lockbox_tar <- tempfile(fileext = '.tar.gz'); \
+lockbox_url <- 'https://github.com/robertzk/lockbox/archive/0.2.4.tar.gz'; \
+download(lockbox_tar, lockbox_url); \
+install.packages(lockbox_tar, repos = NULL, type = 'source'); \ 
+message(crayon::yellow('Loading safe stable changes...')); \
+lockbox::lockbox('lockfile.stable.yml'); \
+library(bettertrace);a <- try(devtools::test()); \ 
+quit(status = if (methods::is(a, 'try-error') || sum(c(as.data.frame(a)\\$failed, as.data.frame(a)\\$error)) > 0) \
+{ 1 } else { 0 })"
+
 docker pull $DOCKER_IMAGE
-!(!(docker run -i --rm --name $CONTAINER_NAME -v $WORKSPACE:$DOCKER_WORKSPACE -w $DOCKER_WORKSPACE $DOCKER_IMAGE bash -c "/usr/bin/R -e 'library(bettertrace);a <- try(devtools::test()); quit(status = if (methods::is(a, \\\"try-error\\\") || sum(c(as.data.frame(a)\\$failed, as.data.frame(a)\\$error)) > 0) { 1 } else { 0 })'"))
+!(!(docker run -i --rm --name $CONTAINER_NAME -v $WORKSPACE:$DOCKER_WORKSPACE -w $DOCKER_WORKSPACE $DOCKER_IMAGE bash -c "/usr/bin/R -e $R_COMMAND" 
 
 echo DOCKER_RUN_EXIT_STATUS=$? > env.properties
 
