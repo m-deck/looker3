@@ -16,21 +16,21 @@ class JenkinsCi {
 CONTAINER_NAME=$BUILD_TAG
 DOCKER_IMAGE="de-docker.art.local/aa-r-avantformula:latest"
 
-R="\`/usr/bin/R -e "
-R=$R"\"download <- function(path, url, ...){"
-R=$R"request <- httr::GET(url, ...);"
-R=$R"httr::stop_for_status(request);"
-R=$R"writeBin(httr::content(request, 'raw'), path);"
-R=$R"path};"
-R=$R"lockbox_tar <- tempfile(fileext = '.tar.gz');"
-R=$R"lockbox_url <- 'https://github.com/robertzk/lockbox/archive/0.2.4.tar.gz';"
-R=$R"download(lockbox_tar, lockbox_url);"
-R=$R"install.packages(lockbox_tar, repos = NULL, type = 'source');"
-R=$R"message(crayon::yellow('Loading safe stable changes...'));"
-R=$R"lockbox::lockbox('lockfile.stable.yml');"
-R=$R"library(bettertrace);"
-R=$R"a <- try(devtools::test());"
-R=$R"quit(status = if (methods::is(a, 'try-error') || sum(c(as.data.frame(a)\$failed, as.data.frame(a)\$error)) > 0) { 1} else { 0 })\"\`"
+R='/usr/bin/R -e '
+R=$R'"download <- function(path, url, ...){'
+R=$R'request <- httr::GET(url, ...);'
+R=$R'httr::stop_for_status(request);'
+R=$R'writeBin(httr::content(request, \\"raw\\"), path);'
+R=$R'path};'
+R=$R'lockbox_tar <- tempfile(fileext = \\".tar.gz\\");'
+R=$R'lockbox_url <- \\"https://github.com/robertzk/lockbox/archive/0.2.4.tar.gz\\";'
+R=$R'download(lockbox_tar, lockbox_url);'
+R=$R'install.packages(lockbox_tar, repos = NULL, type = \\"source\\");'
+R=$R'message(crayon::yellow(\\"Loading safe stable changes...\\"));'
+R=$R'lockbox::lockbox(\\"lockfile.stable.yml\\");'
+R=$R'library(bettertrace);'
+R=$R'r <- as.data.frame(devtools::test(\\".\\")); quit(save = \\"no\\", status = if (sum(r\\$failed) > 0) { 1 } else { 0 }, runLast = FALSE);'
+R=$R'library(covr);codecov()"'
 
 docker pull $DOCKER_IMAGE
 
