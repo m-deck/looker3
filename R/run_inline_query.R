@@ -25,7 +25,8 @@ run_inline_query <- function(base_url, client_id, client_secret,
 
   on.exit({
     logout_response <- logout_api_call(base_url, session_token)
-    handle_logout_response(logout_response)
+    tryCatch(handle_logout_response(logout_response),
+             error = function(e) warning(e)
   })
   
   inline_query_response <- query_api_call(base_url, session_token,

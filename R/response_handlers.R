@@ -9,17 +9,13 @@ validate_response <- function(response) {
   query_type  <- deparse(substitute(response))
   status_code <- httr::status_code(response)
 
-  msg <- paste("The",
-    gsub("_", " ", query_type),
+  stop(paste("The",
+    gsub("_", " ", deparse(substitute(response))),
     "of your Looker query was not a successful response.",
     "It returned a status code of",
-    status_code
+    httr::status_code(response)
     )
-
-  if (grepl("logout", query_type)) {
-    warning(msg)
-    return(status_code)
-  } else { stop(msg) }
+  )
 }
 
 extract_login_token <- function(login_response) {
