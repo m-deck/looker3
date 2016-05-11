@@ -1,12 +1,12 @@
 context("response handling helper functions")
 
-# TODO: create mock response objects.
-fake_login_response <- list(status = "200", access_token = "FAKE_TOKEN") 
-fake_logout_response <- NULL
-fake_query_response <- NULL
-fake_fail_response <- list(status = "500")
-fake_query_failure <- list(status = "500")
-fake_logout_failure <- list(status = "500")
+fake_login_response  <- list(status = "200", 
+                            body = list(access_token = "FAKE_TOKEN"))
+fake_logout_response <- list(status = "204")  
+fake_query_response  <- list(status = "200", 
+                             body = "ID, VALUE \n 1, 2")
+fake_query_failure   <- list(status = "500")
+fake_logout_failure  <- list(status = "500")
 
 
 with_mock(`httr::status_code` = function(x) x$status, {
