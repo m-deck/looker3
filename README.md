@@ -1,4 +1,4 @@
-## looker3: interface with the Looker 3.0 API <a href="https://travis-ci.com/avantcredit/avant-looker3"><img src="https://img.shields.io/travis/avantcredit/avant-looker3.svg"></a> 
+## looker3: interface with the Looker 3.0 API [![Build Status](http://de-jenkins.rd.avant.com/jenkins/buildStatus/icon?job=avant-looker3)](http://de-jenkins.rd.avant.com/jenkins/job/avant-looker3/) 
 
 Pull data from Looker with the 3.0 API.
 
