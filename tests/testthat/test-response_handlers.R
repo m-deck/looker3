@@ -5,15 +5,26 @@ fake_login_response <- list(status = "200", access_token = "FAKE_TOKEN")
 fake_logout_response <- NULL
 fake_query_response <- NULL
 fake_fail_response <- list(status = "500")
+fake_query_failure <- list(status = "500")
+fake_logout_failure <- list(status = "500")
 
 
-test_that("validate_response errors with step name and status code", {
-  with_mock(`httr::status_code` = function(x) x$status, {
-     expect_error(validate_response(fake_fail_response),
-       "The fake fail response of your Looker query")
-     expect_error(validate_response(fake_fail_response),
-       "returned a status code of 500")
+with_mock(`httr::status_code` = function(x) x$status, {
+
+
+  test_that("validate_response errors with step name and status code", {
+    expect_error(validate_response(fake_query_failure),
+      "The fake query failure of your Looker query")
+    expect_error(validate_response(fake_query_failure),
+      "returned a status code of 500")
    })
+
+  test_that("if passed a logout response, validate_response raises a warning", {
+    expect_warning(validate_response(fake_logout_failure),
+       "The fake logout failure of your Looker query")
+    expect_warning(validate_response(fake_logout_failure),
+       "returned a status code of 500")
+  })
 })
 
 

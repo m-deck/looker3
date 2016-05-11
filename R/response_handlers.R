@@ -6,13 +6,20 @@ is.successful_response <- function(response) {
 validate_response <- function(response) {
   if (is.successful_response(response)) { return(TRUE) }
 
-  stop(paste("The",
-    gsub("_", " ", deparse(substitute(response))), 
+  query_type  <- deparse(substitute(response))
+  status_code <- httr::status_code(response)
+
+  msg <- paste("The",
+    gsub("_", " ", query_type),
     "of your Looker query was not a successful response.",
-    "it returned a status code of",
-    httr::status_code(response)
+    "It returned a status code of",
+    status_code
     )
-  )
+
+  if (grepl("logout", query_type)) {
+    warning(msg)
+    return(status_code)
+  } else { stop(msg) }
 }
 
 extract_login_token <- function(login_response) {
