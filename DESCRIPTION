@@ -2,7 +2,7 @@ Package: looker3
 Type: Package
 Title: looker3 (http://github.com/abelcastilloavant/avant-looker3)
 Description: Pull data from Looker using the fancy new 3.0 API.
-Version: 0.1.4
+Version: 0.1.5
 Author: Abel Castillo <abel.castillo@avant.com>
 Maintainer: Abel Castillo <abel.castillo@avant.com>
 Authors@R: c(person("Abel", "Castillo",

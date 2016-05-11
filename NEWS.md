@@ -1,3 +1,6 @@
+# Version 0.1.5
+- `validate_response` now only warns on unsuccessful logout validations.
+
 # Version 0.1.4
 - Error messages on `validate_response` now include step name and status code.
 

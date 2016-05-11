@@ -6,10 +6,13 @@ is.successful_response <- function(response) {
 validate_response <- function(response) {
   if (is.successful_response(response)) { return(TRUE) }
 
+  query_type  <- deparse(substitute(response))
+  status_code <- httr::status_code(response)
+
   stop(paste("The",
-    gsub("_", " ", deparse(substitute(response))), 
+    gsub("_", " ", deparse(substitute(response))),
     "of your Looker query was not a successful response.",
-    "it returned a status code of",
+    "It returned a status code of",
     httr::status_code(response)
     )
   )
