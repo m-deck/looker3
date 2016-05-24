@@ -5,3 +5,5 @@ machine:
 test:
   override:
     - docker run -v /home/ubuntu/avant-looker3:/avant-looker3 -w /avant-looker3 kirillseva/avant-r-new bash -c "R -e 'packages <- c(\"roxygen2\", \"checkr\");install.packages(packages);download <- function(path, url, ...){ request <- httr::GET(url, ...); httr::stop_for_status(request); writeBin(httr::content(request, \"raw\"), path); path}; lockbox_tar <- tempfile(fileext = \".tar.gz\"); lockbox_url <- \"https://github.com/robertzk/lockbox/archive/0.2.4.tar.gz\"; download(lockbox_tar, lockbox_url); install.packages(lockbox_tar, repos = NULL, type = \"source\"); message(crayon::yellow(\"Loading safe stable changes...\")); lockbox::lockbox(\"lockfile.stable.yml\"); library(bettertrace); r <- as.data.frame(devtools::test(\".\")); quit(save = \"no\", status = if (sum(r\$failed) > 0) { 1 } else { 0 }, runLast = FALSE); library(covr);codecov()"
+
+    
