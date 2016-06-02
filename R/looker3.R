@@ -40,15 +40,15 @@ looker3 <- function(model, view, fields,
   names(looker_setup) <- names(env_var_descriptions)
 
   # model, view, and fields are required to perform a query
-  if (!is(model, character) || length(model) != 1) {
+  if (missing(model) || !methods::is(model, "character") || length(model) != 1) {
    stop("`model` must be a character vector of length 1.")  
   }
 
-  if (!is(view, character) || length(view) != 1) {
+  if (missing(view) || !methods::is(view, "character") || length(view) != 1) {
    stop("`view` must be a character vector of length 1.")  
   }
 
-  if (!(is(fields, character))) {
+  if (missing(fields) || !(methods::is(fields, "character"))) {
     stop("`fields` must be a character vector.")  
   }
 
