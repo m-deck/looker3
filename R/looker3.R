@@ -40,8 +40,17 @@ looker3 <- function(model, view, fields,
   names(looker_setup) <- names(env_var_descriptions)
 
   # model, view, and fields are required to perform a query
-  checkr::validate(model %is% simple_string, view %is% simple_string,
-                   fields %is% character)
+  if (!is(model, character) || length(model) != 1) {
+   stop("`model` must be a character vector of length 1.")  
+  }
+
+  if (!is(view, character) || length(view) != 1) {
+   stop("`view` must be a character vector of length 1.")  
+  }
+
+  if (!(is(fields, character))) {
+    stop("`fields` must be a character vector.")  
+  }
 
 
   # if user-specified filters as a character vector, reformat to a list
