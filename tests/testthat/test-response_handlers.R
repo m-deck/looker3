@@ -34,10 +34,6 @@ describe("processing successful responses", {
   with_mock(
   `httr::status_code` = function(response) { response$status }, 
   `httr::content` = function(response) { response$body }, {
-    test_that("extract_login_token returns the access token", { 
-      expect_equal(extract_login_token(fake_login_response),
-                   "FAKE_TOKEN")
-    })   
     test_that("handle_logout_response returns TRUE", {
       expect_true(handle_logout_response(fake_logout_response))
     })

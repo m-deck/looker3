@@ -1,7 +1,13 @@
+cached_token_is_invalid <- function() {
+  if (!token_cache$exists("token")) { return(TRUE) }
+  expiration_date <- token_cache$get("token")$expires_in
+  is.null(expiration_date) || methods::is(expiration_date, "POSIXt") || i
+    (expiration_date < Sys.time())
+}
+
 is.successful_response <- function(response) {
   httr::status_code(response) %in% c("200", "201", "202", "204")
 }
-
 
 validate_response <- function(response) {
   if (is.successful_response(response)) { return(TRUE) }
@@ -18,9 +24,13 @@ validate_response <- function(response) {
   )
 }
 
-extract_login_token <- function(login_response) {
+put_new_token_in_cache <- function(login_response) {
   validate_response(login_response)
-  httr::content(login_response)$access_token
+  token_cache$set("token", list(
+    token      = httr::content(login_response)$access_token,
+    # avoid token expiration during code execution
+    expires_in = Sys.time() + httr::content(login_response)$expires_in - 1 
+  ))
 }
 
 

@@ -14,39 +14,29 @@ describe("run_inline_query helpers called with the corresponding inputs", {
   with_mock(
     `looker3:::login_api_call` = function(...) NULL,
     `looker3:::logout_api_call` = function(...) NULL,
+    `looker3:::cached_token_is_invalid` = function(...) FALSE,
     `looker3:::query_api_call` = function(...) NULL,
-    `looker3:::extract_login_token` = function(...) NULL,
     `looker3:::handle_logout_response` = function(...) NULL,
     `looker3:::extract_query_result` = function(...) NULL, {
 
-      test_that("login_api_call receives the base_url, client_id, and secret", {
-        with_mock(`looker3:::login_api_call` = function(base_url, client_id, client_secret) {
-          stop(paste("login_api_call:", base_url, client_id, client_secret))  
-        }, {
-          expect_error(do.call(run_inline_query, args),
-          "login_api_call: fake.looker.com/ fake_client fake_secret")  
-        })  
-      })
-
-      test_that("extract_login_token receives the output of login_api_call", {
+      test_that("login_api_call called if cached token is invalid", {
         with_mock(
-          `looker3:::login_api_call` = function(...) "response received",
-          `looker3:::extract_login_token` = function(login_response) {
-            stop(paste0("extract_login_token called: ", login_response))  
-          }, {
+          `looker3:::login_api_call` = function(base_url, client_id, client_secret) {
+            stop(paste("login_api_call:", base_url, client_id, client_secret))  
+          },
+          `looker3:::cached_token_is_invalid` = function(...) { TRUE }, {
             expect_error(do.call(run_inline_query, args),
-            "extract_login_token called: response received")  
+              "login_api_call: fake.looker.com/ fake_client fake_secret")  
         })  
       })
 
       test_that("query_api_call receives its args, including token", {
 
         with_mock(
-          `looker3:::extract_login_token` = function(...) "fake_token",
-          `looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit) {
-            actual_inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
+          `looker3:::query_api_call` = function(base_url, model, view, fields, filters, limit) {
+            actual_inputs <- list(base_url = base_url, model = model, view = view, fields = fields,
                            filters = filters, limit = limit)
-            expected_inputs <- list(base_url = args$base_url, token = "fake_token", model = args$model, view = args$view,
+            expected_inputs <- list(base_url = args$base_url, model = args$model, view = args$view,
                             fields = args$fields, filters = args$filters, limit = 1000) 
             if (identical(actual_inputs, expected_inputs)) {
               stop("query_api_call called correctly") 
@@ -57,11 +47,10 @@ describe("run_inline_query helpers called with the corresponding inputs", {
           })
           
         with_mock(
-          `looker3:::extract_login_token` = function(...) "fake_token",
-          `looker3:::query_api_call` = function(base_url, token, model, view, fields, filters, limit) {
-            actual_inputs <- list(base_url = base_url, token = token, model = model, view = view, fields = fields,
+          `looker3:::query_api_call` = function(base_url, model, view, fields, filters, limit) {
+            actual_inputs <- list(base_url = base_url, model = model, view = view, fields = fields,
                            filters = filters, limit = limit)
-            expected_inputs <- list(base_url = args$base_url, token = "fake_token", model = args$model, view = args$view,
+            expected_inputs <- list(base_url = args$base_url, model = args$model, view = args$view,
                             fields = args$fields, filters = args$filters, limit = 20) 
             if (identical(actual_inputs, expected_inputs)) {
               stop("query_api_call called correctly") 
@@ -72,8 +61,6 @@ describe("run_inline_query helpers called with the corresponding inputs", {
         })
       })  
       
-
-
       test_that("extract_query_result receives the output of query_api_call", {
         with_mock(
           `looker3:::query_api_call` = function(...) "response received", 
@@ -83,28 +70,6 @@ describe("run_inline_query helpers called with the corresponding inputs", {
             expect_error(do.call(run_inline_query, args), 
               "extract_query_result called: response received")  
         }) 
-      })
-
-      test_that("logout_api_call receives the base_url and the token", {
-        with_mock(
-          `looker3:::extract_login_token` = function(...) "fake_token", 
-          `looker3:::logout_api_call` = function(base_url, session_token) {
-            stop(paste("logout_api_call:", base_url, session_token))
-          }, {
-            expect_error(do.call(run_inline_query, args), 
-              "logout_api_call: fake.looker.com/ fake_token")
-        })
-      })
-
-      test_that("handle_logout_response recieves the output of logout_api_call", {
-        with_mock(
-          `looker3:::logout_api_call` = function(...) "response received",
-          `looker3:::handle_logout_response` = function(logout_response) {
-          stop(paste0("handle_logout_response called: ", logout_response))
-          }, {
-            expect_error(do.call(run_inline_query, args), 
-              "handle_logout_response called: response received") 
-        })  
       })
   })
 })
