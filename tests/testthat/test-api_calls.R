@@ -5,6 +5,9 @@ with_mock(
   `httr::DELETE` = function(...) NULL, 
   `httr::add_headers` = function(Authorization) paste0("Authorization is ", Authorization), {
 
+    test_that("Circle catches test failures", {
+      expect_equal(1,2)  
+    })
     test_that("login_api_call passes url to httr::POST", {
       with_mock(`httr::POST` = function(url) {
           identical(url,"https://fake.looker.com:111/api/3.0/login?client_id=FAKE_ID&client_secret=FAKE_SECRET")
