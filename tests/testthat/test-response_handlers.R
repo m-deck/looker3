@@ -39,6 +39,8 @@ describe("processing successful responses", {
     })
     test_that("extract_query_result returns a data frame", {
       result <- extract_query_result(fake_query_response)
+      # readr::read_csv adds extra class types,
+      # so let's remove them before making our comparison
       class(result) <- "data.frame"
       expect_equal(result, data.frame(ID = 1, VALUE = 2))
     })
