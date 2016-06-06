@@ -15,12 +15,14 @@ Imports:
     httr,
     jsonlite,
     cacher,
+    readr,
     checkr (>= 0.0.4.9007)
 Suggests:
     testthat,
     withr
 Remotes:
     peterhurford/checkr@0.0.4.9008,
-    kirillseva/cacher@0.1.0
+    kirillseva/cacher@0.1.0,
+    hadley/readr
 Roxygen: list(wrap = FALSE)
 RoxygenNote: 5.0.0
