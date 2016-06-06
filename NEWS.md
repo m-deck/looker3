@@ -1,3 +1,6 @@
+# Version 0.1.6
+- removed `logout_api_call`, using `cacher` to cache tokens instead.
+
 # Version 0.1.5
 - `validate_response` now only warns on unsuccessful logout validations.
 
