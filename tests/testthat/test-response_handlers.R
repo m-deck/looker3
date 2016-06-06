@@ -38,8 +38,11 @@ describe("processing successful responses", {
       expect_true(handle_logout_response(fake_logout_response))
     })
     test_that("extract_query_result returns a data frame", {
-      expect_equal(extract_query_result(fake_query_response),
-        data.frame(ID = 1, VALUE = 2))
+      result <- extract_query_result(fake_query_response)
+      # readr::read_csv adds extra classes,
+      # so let's remove them before making our comparison
+      class(result) <- "data.frame"
+      expect_equal(result, data.frame(ID = 1, VALUE = 2))
     })
   })  
 })
