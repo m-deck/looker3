@@ -41,7 +41,6 @@ handle_logout_response <- function(logout_response) {
 extract_query_result <- function(query_response) {
   validate_response(query_response)
   data_from_query <- httr::content(query_response)
-  browser()
   readr::read_csv(data_from_query)
 }
 
