@@ -1,4 +1,7 @@
 # Version 0.1.6
+- `extract_query_result` now uses `readr::read_csv` instead of `utils::read.csv` under the hood.
+
+# Version 0.1.6
 - removed `logout_api_call`, using `cacher` to cache tokens instead.
 
 # Version 0.1.5
