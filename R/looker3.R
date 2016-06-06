@@ -20,7 +20,10 @@
 looker3 <- checkr::ensure(pre = list(   # model, view, and fields are
              model %is% simple_string,  # required to form a query.
              view %is% simple_string,
-             fields %is% character
+             fields %is% character,
+             filters %is% simple_string ||
+               filters %is% list && (filters %contains_only% simple_string || filters %is% empty),
+             limit %is% numeric && limit > 0 && limit %% 1 == 0
            ), 
 
   function(model, view, fields,
