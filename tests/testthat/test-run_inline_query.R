@@ -30,6 +30,22 @@ describe("run_inline_query helpers called with the corresponding inputs", {
         })  
       })
 
+      test_that("login procedure bypassed if cached token is valid", {
+        with_mock(
+          `looker3:::login_api_call` = function(...) {
+            stop("stopped by login_api_call")
+          },
+          `looker3:::put_new_token_in_cache` = function(...) {
+            stop("stopped by put_new_token_in_cache")
+          },
+          `looker3:::query_api_call` = function(...) {
+            stop("bypassed token caching")
+          }, {
+            expect_error(do.call(run_inline_query, args),
+              "bypassed token caching")
+        })
+      })
+
       test_that("query_api_call receives its args, including token", {
 
         with_mock(
