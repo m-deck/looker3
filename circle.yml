@@ -5,5 +5,5 @@ machine:
 
 test:
   override:
-    - docker run --net=host -v /home/ubuntu/looker3:/looker3 -w /looker3 -e GITHUB_PAT=$CIRCLE_GITHUB_PAT -e CODECOV_TOKEN=$CIRCLE_CODECOV_TOKEN avantcredit/looker3 bash -c "R -e 'packages <- c(\"roxygen2\", \"checkr\");install.packages(packages);'; Rscript circle_installations.R; R CMD build --no-build-vignettes .; R CMD INSTALL $(ls -1t *.tar.gz | head -n 1); Rscript circle_tests.R"
+    - docker run -v /home/ubuntu/looker3:/looker3 -w /looker3 -e GITHUB_PAT=$CIRCLE_GITHUB_PAT -e CODECOV_TOKEN=$CIRCLE_CODECOV_TOKEN avantcredit/looker3 bash -c "R -e 'packages <- c(\"roxygen2\", \"checkr\");install.packages(packages);'; Rscript circle_installations.R; R CMD build --no-build-vignettes .; R CMD INSTALL $(ls -1t *.tar.gz | head -n 1); Rscript circle_tests.R"
     
