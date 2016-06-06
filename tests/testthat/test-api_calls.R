@@ -15,29 +15,16 @@ with_mock(
     })
 
     with_mock(
-      `httr::DELETE` = function(url, header) {
-        list(url = url, header = header)  
-      }, {
-        test_that("logout_api_call passes url to httr::DELETE", {
-          expect_identical(
-            logout_api_call("https://fake.looker.com:111/", "FAKE_TOKEN")$url,
-            "https://fake.looker.com:111/api/3.0/logout")  
-        })
-        test_that("logout_api_call passes token to httr::DELETE", {
-          expect_identical(
-            logout_api_call("https://fake.looker.com:111/", "FAKE_TOKEN")$header,
-            "Authorization is token FAKE_TOKEN")
-        })
-    })
-
-    with_mock(
+    `looker3:::cached_token_is_invalid` = function(...) { FALSE },
     `httr::POST` = function(url, header, body, encode) {
       list(url = url, header = header, body = body)  
     }, {
-      args <- list(base_url = "https://fake.looker.com:111/", token = "FAKE_TOKEN",
+      args <- list(base_url = "https://fake.looker.com:111/",
         model = "look", view = "items", 
         fields = c("category.name", "products.count"), 
         filters = list(c("category.name", "socks")))
+
+      token_cache$set("token", list(token = "FAKE_TOKEN"))
 
       test_that("query_api_call passes url to httr::POST", {
       expect_identical(

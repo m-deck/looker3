@@ -17,42 +17,46 @@
 #' @return a data.frame containing the data returned by the query
 #'
 #' @export
-looker3 <- function(model, view, fields,
-             filters = list(), limit = 1000) {
+looker3 <- checkr::ensure(pre = list(   # model, view, and fields are
+             model %is% simple_string,  # required to form a query.
+             view %is% simple_string,
+             fields %is% character,
+             filters %is% simple_string ||
+               filters %is% list && (filters %contains_only% simple_string || filters %is% empty),
+             limit %is% numeric && limit > 0 && limit %% 1 == 0
+           ), 
 
-  env_var_descriptions <- list(
-    LOOKER_URL    = "API url",
-    LOOKER_ID     = "client id",
-    LOOKER_SECRET = "client secret"
-  )
+  function(model, view, fields,
+               filters = list(), limit = 1000) {
 
-  looker_setup <- lapply(names(env_var_descriptions), function(name) {
-    env_var <- Sys.getenv(name)
-    if (env_var == "") {
-      stop(paste0("Your environment variables are not set correctly. ",
-        "please place your Looker 3.0 ", env_var_descriptions[[name]],
-        " in the environment variable ", name, "."
-      ))
+    env_var_descriptions <- list(
+      LOOKER_URL    = "API url",
+      LOOKER_ID     = "client id",
+      LOOKER_SECRET = "client secret"
+    )
+
+    looker_setup <- lapply(names(env_var_descriptions), function(name) {
+      env_var <- Sys.getenv(name)
+      if (env_var == "") {
+        stop(paste0("Your environment variables are not set correctly. ",
+          "please place your Looker 3.0 ", env_var_descriptions[[name]],
+          " in the environment variable ", name, "."
+        ))
+      }
+      env_var
+    })
+
+    names(looker_setup) <- names(env_var_descriptions)
+
+    # if user-specified filters as a character vector, reformat to a list
+    if (!missing(filters) && is.character(filters)) {
+      filters <- colon_split_to_list(filters) 
     }
-    env_var
-  })
 
-  names(looker_setup) <- names(env_var_descriptions)
-
-  # model, view, and fields are required to perform a query
-  checkr::validate(model %is% simple_string, view %is% simple_string,
-                   fields %is% character)
-
-
-  # if user-specified filters as a character vector, reformat to a list
-  if (!missing(filters) && is.character(filters)) {
-    filters <- colon_split_to_list(filters) 
+    run_inline_query(looker_setup$LOOKER_URL, looker_setup$LOOKER_ID, looker_setup$LOOKER_SECRET,
+      model, view, fields, filters, limit)
   }
-
-  run_inline_query(looker_setup$LOOKER_URL, looker_setup$LOOKER_ID, looker_setup$LOOKER_SECRET,
-    model, view, fields, filters, limit)
-}
-
+)
 
 colon_split_to_list <- function(string) {
   colon_split <- strsplit(string, ": ")
