@@ -1,4 +1,7 @@
-# Version 0.1.6
+# Version 0.1.8
+- Also allow `filters` to be vector.
+
+# Version 0.1.7
 - `extract_query_result` now uses `readr::read_csv` instead of `utils::read.csv` under the hood.
 
 # Version 0.1.6
