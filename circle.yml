@@ -1,9 +1,0 @@
-machine:
-  services:
-    - docker
-
-
-test:
-  override:
-    - docker run -v /home/ubuntu/looker3:/looker3 -w /looker3 -e GITHUB_PAT=$CIRCLE_GITHUB_PAT -e CODECOV_TOKEN=$CIRCLE_CODECOV_TOKEN kirillseva/avant-r-new bash -c "R -e 'packages <- c(\"roxygen2\"); install.packages(packages);'; Rscript circle_installations.R; R CMD build --no-build-vignettes .; R CMD INSTALL $(ls -1t *.tar.gz | head -n 1); Rscript circle_tests.R"
-    
