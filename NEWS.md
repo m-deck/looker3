@@ -1,3 +1,6 @@
+# Version 0.1.9
+- Added an extra validation in `extract_query_response` to catch silent errors in the body of httr response objects.
+
 # Version 0.1.8
 - Also allow `filters` to be vector.
 

@@ -5,6 +5,8 @@ fake_login_response  <- list(status = "200",
 fake_logout_response <- list(status = "204")  
 fake_query_response  <- list(status = "200", 
                              body = "ID, VALUE \n 1, 2")
+silent_error_response <- list(status = "200",
+                              body = "Error: something went wrong despite the status code being successful")
 fake_query_failure   <- list(status = "500")
 fake_logout_failure  <- list(status = "500")
 
@@ -43,6 +45,11 @@ describe("processing successful responses", {
       # so let's remove them before making our comparison
       class(result) <- "data.frame"
       expect_equal(result, data.frame(ID = 1, VALUE = 2))
+    })
+    test_that("extract_query_result errors on 'silent' errors", {
+      
+      expect_error(extract_query_result(silent_error_response),
+                   "Error: ")
     })
   })  
 })

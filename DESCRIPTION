@@ -2,7 +2,7 @@ Package: looker3
 Type: Package
 Title: looker3 (http://github.com/abelcastilloavant/avant-looker3)
 Description: Pull data from Looker using the fancy new 3.0 API.
-Version: 0.1.8
+Version: 0.1.9
 Author: Abel Castillo <abel.castillo@avant.com>
 Maintainer: Abel Castillo <abel.castillo@avant.com>
 Authors@R: c(person("Abel", "Castillo",
@@ -20,8 +20,7 @@ Imports:
 Suggests:
     testthat,
     withr
-Remotes:
-    peterhurford/checkr@0.0.4.9008,
+Remotes: peterhurford/checkr@0.0.4.9008,
     kirillseva/cacher@0.1.0
 Roxygen: list(wrap = FALSE)
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1
