@@ -6,7 +6,7 @@
 \alias{looker3-package}
 \title{Describe the package.}
 \usage{
-looker3(model, view, fields, filters = list(), limit = 10)
+looker3(model, view, fields, filters = list(), limit = 1000)
 }
 \arguments{
 \item{model}{character. The \code{model} parameter of the query.}

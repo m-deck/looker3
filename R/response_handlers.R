@@ -41,6 +41,10 @@ handle_logout_response <- function(logout_response) {
 extract_query_result <- function(query_response) {
   validate_response(query_response)
   data_from_query <- httr::content(query_response)
+  if (grepl("^Error:", data_from_query)) {
+    # assume that the query errored quietly and that data_from_query is an error message.
+    stop("Looker returned the following error message:\n", as.character(data_from_query))
+  }
   readr::read_csv(data_from_query)
 }
 

@@ -5,7 +5,7 @@
 \title{Run an inline query using the Looker 3.0 API.}
 \usage{
 run_inline_query(base_url, client_id, client_secret, model, view, fields,
-  filters, limit = 10)
+  filters, limit = 1000)
 }
 \arguments{
 \item{base_url}{character. The base url of the Looker server.}
