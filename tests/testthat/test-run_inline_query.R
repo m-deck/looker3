@@ -80,7 +80,7 @@ describe("run_inline_query helpers called with the corresponding inputs", {
       test_that("extract_query_result receives the output of query_api_call", {
         with_mock(
           `looker3:::query_api_call` = function(...) "response received", 
-          `looker3:::extract_query_result` = function(inline_query_response) {
+          `looker3:::extract_query_result` = function(inline_query_response, ...) {
             stop(paste0("extract_query_result called: "), inline_query_response)  
           }, {
             expect_error(do.call(run_inline_query, args), 

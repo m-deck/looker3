@@ -15,7 +15,7 @@
 #'
 run_inline_query <- function(base_url, client_id, client_secret, 
                       model, view, fields, filters, 
-                      limit = 1000) {
+                      limit = 1000, silent_read_csv) {
 
 
   # The API requires you to "log in" and obtain a session token
@@ -29,5 +29,5 @@ run_inline_query <- function(base_url, client_id, client_secret,
   inline_query_response <- query_api_call(base_url,
     model, view, fields, filters, limit) 
 
-  extract_query_result(inline_query_response)  
+  extract_query_result(inline_query_response, silent_read_csv)
 }

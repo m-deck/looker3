@@ -1,3 +1,6 @@
+# Version 0.1.10
+- Added a param `silent_csv_read`, to switch off/on warnings while reading the stream into a data frame.
+
 # Version 0.1.9
 - Added an extra validation in `extract_query_response` to catch silent errors in the body of httr response objects.
 
