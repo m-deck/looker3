@@ -6,7 +6,8 @@
 \alias{looker3-package}
 \title{Describe the package.}
 \usage{
-looker3(model, view, fields, filters = list(), limit = 1000)
+looker3(model, view, fields, filters = list(), limit = 1000,
+  silent_read_csv = TRUE)
 }
 \arguments{
 \item{model}{character. The \code{model} parameter of the query.}
@@ -19,6 +20,9 @@ looker3(model, view, fields, filters = list(), limit = 1000)
 each vector describing one of the \code{filters} of the query.}
 
 \item{limit}{numeric. The \code{limit} parameter of the query.}
+
+\item{silent_read_csv}{logical. Whether or not to suppress warnings
+when reading the streamed data into a data frame.}
 }
 \value{
 a data.frame containing the data returned by the query

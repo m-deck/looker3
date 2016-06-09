@@ -13,6 +13,8 @@
 #' @param filters list. Each element of the list is a length 2 character vector,
 #' each vector describing one of the \code{filters} of the query.
 #' @param limit numeric. The \code{limit} parameter of the query.
+#' @param silent_read_csv logical. Whether or not to suppress warnings
+#' when reading the streamed data into a data frame.
 #'
 #' @return a data.frame containing the data returned by the query
 #'
@@ -24,11 +26,13 @@ looker3 <- checkr::ensure(pre = list(   # model, view, and fields are
              filters %is% simple_string ||
                ((filters %is% list || filters %is% vector) &&
                 (filters %contains_only% simple_string || filters %is% empty)),
-             limit %is% numeric && limit > 0 && limit %% 1 == 0
+             limit %is% numeric && limit > 0 && limit %% 1 == 0,
+             silent_read_csv %is% logical
            ), 
 
   function(model, view, fields,
-               filters = list(), limit = 1000) {
+            filters = list(), limit = 1000,
+            silent_read_csv = TRUE) {
 
     env_var_descriptions <- list(
       LOOKER_URL    = "API url",
