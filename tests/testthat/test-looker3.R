@@ -45,7 +45,7 @@ withr::with_envvar(c(
     with_mock(
       `looker3:::run_inline_query` = function(url, id, secret,
                                              model, view, fields, filters,
-                                             limit) {
+                                             limit, ...) {
         list(url = url, id = id, secret = secret, model = model,
              view = view, fields = fields, filters = filters,
              limit = limit)
