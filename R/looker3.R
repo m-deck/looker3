@@ -59,7 +59,7 @@ looker3 <- checkr::ensure(pre = list(   # model, view, and fields are
     }
 
     run_inline_query(looker_setup$LOOKER_URL, looker_setup$LOOKER_ID, looker_setup$LOOKER_SECRET,
-      model, view, fields, filters, limit)
+      model, view, fields, filters, limit, silent_read_csv)
   }
 )
 
